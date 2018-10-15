@@ -1,14 +1,14 @@
 const path = require('path');
-const {loopParserPath,isIllegatExt} = require('../src/utils');
+const {loopParserPath,isIllegatExt,isIgnorePath} = require('../src/parserServerConfig');
 
 describe('test loopParserPath',function() {
-    it('resolve path',function() {
+    it('test ignore config',function() {
             let testData = {
                 input:path.resolve(__dirname,'mock'),
                 expect:[path.resolve(__dirname,'mock/getTest.js')]
             }
             //判断是否包含测试
-            expect(loopParserPath(testData.input)).toEqual(expect.arrayContaining(testData.expect));
+            expect(loopParserPath({root:testData.input,ignore:['ignore']})).toEqual(expect.arrayContaining(testData.expect));
     })
 
 })
@@ -30,6 +30,21 @@ describe('test isIllegatExt ',function() {
 
         testData.forEach((ele) => {
             expect(isIllegatExt(ele.input)).toBe(ele.expect);
+        })
+    });
+})
+
+describe('test isIgnoreSource ',function() {
+    it('test ext ',function() {
+        let testData = [
+            {
+                input:['/demo/ha',['/demo/ha']],
+                expect:true
+            }
+        ];
+
+        testData.forEach((ele) => {
+            expect(isIgnorePath.apply(this,ele.input)).toBe(ele.expect);
         })
     });
 })

@@ -5,8 +5,10 @@
   "main": "src/MockServer.js",
   "bin": "./bin/index.js",
   "scripts": {
-    "test": "export DEBUG='zen-mock:*';jest --watch src,tests",
-    "start": "export DEBUG='zen-mock:*';npx supervisor -w src,config tests/utils.test.js"
+    "test": "npm run start & jest --watch src,tests",
+    "start": "export DEBUG='zen-mock:*';npx supervisor -w src,config examples/basic.js",
+    "debug":"node --inspect-brk examples/basic.js"
+
   },
   "keywords": [],
   "author": "",
@@ -19,7 +21,10 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.0.0",
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
     "merge-descriptors": "^1.0.1",
+    "minimatch": "^3.0.4",
     "mockjs": "^1.0.1-beta3"
   }
 }
