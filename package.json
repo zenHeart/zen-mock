@@ -3,17 +3,21 @@
   "version": "1.0.0",
   "description": "",
   "main": "src/MockServer.js",
-  "bin": "./bin/index.js",
+  "bin": {
+    "zen-mock": "./bin/index.js",
+    "zm": "./bin/index.js"
+  },
   "scripts": {
     "test": "npm run start & jest --watch src,tests",
     "start": "export DEBUG='zen-mock:*';npx supervisor -w src,config examples/basic.js",
-    "debug":"node --inspect-brk examples/basic.js"
-
+    "debug": "node --inspect-brk examples/basic.js",
+    "debug:zm": "cross-env DEBUG=zen-mock:bin zm"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "cross-env": "^5.2.0",
     "debug": "^4.0.1",
     "express": "^4.16.3",
     "jest": "^23.6.0",
@@ -23,8 +27,11 @@
     "@babel/polyfill": "^7.0.0",
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
+    "commander": "^2.19.0",
+    "express-fileupload": "^1.0.0-alpha.1",
     "merge-descriptors": "^1.0.1",
     "minimatch": "^3.0.4",
-    "mockjs": "^1.0.1-beta3"
+    "mockjs": "^1.0.1-beta3",
+    "postman-collection": "^3.3.0"
   }
 }

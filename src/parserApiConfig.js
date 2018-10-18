@@ -1,3 +1,4 @@
+'use strict'
 const Mock = require('mockjs');
 const path = require('path');
 const debug = require('debug')('zen-mock:apiConfigParser');

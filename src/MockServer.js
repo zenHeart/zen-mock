@@ -1,4 +1,4 @@
-`use strict`;
+'use strict'
 
 const debug = require('debug')('zen-mock:MockServer');
 const path = require('path');
@@ -8,10 +8,11 @@ const express = require('express');
 //解析 api 配置文件
 const apiConfigParser = require('./parserApiConfig');
 //独立的工具包
-const { loopParserPath } = require('./parserServerConfig');
+const { loopParserPath,getRelativeName } = require('./parserServerConfig');
 
 //express body 解析中间件
 const bodyParser = require('body-parser');
+const fileUpload = require('express-fileupload');
 
 
 
@@ -46,6 +47,8 @@ module.exports = class MockServer {
         //添加快捷索引
         this.root = this.config.root;
         this.configFiles = loopParserPath(this.config);
+        this.apisConfig = {}; //保存所有 api 配置文件
+
 
         this.app = express();
         Object.assign(this, apiConfigParser);//混入 api 配置解析器
@@ -66,7 +69,9 @@ module.exports = class MockServer {
 
         //导入并解析所有 api 配置文件到 app 实例
         this.configFiles.forEach((apiConfigFile) => {
-            this.loadApi(apiConfigFile);
+            let apiConfig = this.loadApi(apiConfigFile);
+            let relativeName = getRelativeName(this.root,apiConfigFile);
+            this.apisConfig[relativeName] = apiConfig;
         })
     }
     /**
@@ -75,8 +80,9 @@ module.exports = class MockServer {
     loadMiddleWare() {
         //在内部挂载 body 处理避免需要在外部去重新处理
         //TODO:由于是 mock ,内部 require 可以接受
-        this.app.use(bodyParser.json()); // for parsing application/json
-        this.app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-
+        this.app.use(bodyParser.json()); // 解析 application/json
+        this.app.use(bodyParser.urlencoded({ extended: true })); //解析 application/x-www-form-
+        this.app.use(fileUpload());//解析 mutltipart/formdata
     }
 
 
@@ -105,6 +111,7 @@ module.exports = class MockServer {
         } else { //是函数则直接加载响应
             this.app[reqConfig.method](reqConfig.path, respConfig);
         }
+        return apiMergeConfig;
         debug('create api success,method:%s,path:%s ', reqConfig.method, reqConfig.path);
     }
 
