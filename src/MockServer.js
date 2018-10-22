@@ -22,7 +22,8 @@ const fileUpload = require('express-fileupload');
 const defaultConfig = {
     root: path.resolve(process.cwd(), 'mock'),
     hotLoad: true,
-    ignoreDir: null //配置忽略目录,相对 root 而言,也可采用绝对路径
+    staticDir:'static',//配置静态资源目录,相对 root 目录而言
+    ignoreDir: [] //配置忽略目录,相对 root 而言,也可采用绝对路径
 }
 
 
@@ -46,6 +47,8 @@ module.exports = class MockServer {
 
         //添加快捷索引
         this.root = this.config.root;
+        this.staticDir = path.join(this.root,this.config.staticDir);
+
         this.configFiles = loopParserPath(this.config);
         this.apisConfig = {}; //保存所有 api 配置文件
 
@@ -80,6 +83,8 @@ module.exports = class MockServer {
     loadMiddleWare() {
         //在内部挂载 body 处理避免需要在外部去重新处理
         //TODO:由于是 mock ,内部 require 可以接受
+        debug(this.config.staticDir);
+        this.app.use(path.join('/',this.config.staticDir),express.static(this.staticDir));//设定静态资源目录
         this.app.use(bodyParser.json()); // 解析 application/json
         this.app.use(bodyParser.urlencoded({ extended: true })); //解析 application/x-www-form-
         this.app.use(fileUpload());//解析 mutltipart/formdata

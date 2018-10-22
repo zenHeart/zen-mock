@@ -55,11 +55,11 @@ function loopParserPath(options = {}) {
     if (!path.isAbsolute(rootPath)) {
         throw new Error("make sure is absolute path,you can use path.resolve(__dirname,<relativePath>)");
     }
-
     //存储所有 api 配置文件
     let allApiConfigFile = [];
-    let ignorePath = (options.ignoreDir || []).map((ele) => path.join(rootPath, ele));
-
+    //TODO:提取忽略目录的
+    //TODO:此处忽略目录应该只计算一次,不应反复计算 
+    let ignorePath = relativeToAbsolutPath([].concat(options.staticDir,options.ignoreDir),rootPath);
 
     //读取该目录,并遍历目录内容
     fs.readdirSync(rootPath).forEach((source) => {
@@ -68,7 +68,7 @@ function loopParserPath(options = {}) {
         //判断是否为目录
         if (fs.lstatSync(absoluteSource).isDirectory() && !isIgnorePath(absoluteSource, ignorePath)) {
             //递归解析资源,返回合法文件
-            let subSource = loopParserPath({ root: absoluteSource });     //存储所有 api 配置文件
+            let subSource = loopParserPath({...options,root: absoluteSource});     //存储所有 api 配置文件
             allApiConfigFile.push(...subSource);
         } else { //默认不是目录就是文件
             //只保存符合后缀的文件
@@ -79,6 +79,15 @@ function loopParserPath(options = {}) {
         }
     })  //存储所有 api 配置文件
     return allApiConfigFile;
+}
+
+/**
+ * 转换忽略目录数组为绝对目录
+ * @param {array} dirs 忽略目录数组
+ */
+function relativeToAbsolutPath(dirs,root) {
+
+    return dirs.map( dir => path.join(root,dir));
 }
 
 /**
@@ -95,7 +104,6 @@ function getBaseName(file) {
  * @param {string} file 文件绝对路径
  */
 function getRelativeName(root, file) {
-    debug(arguments);
     let relativeFile = path.relative(root, file)
     let { dir, name } = path.parse(relativeFile);
     return path.join(dir, name)
