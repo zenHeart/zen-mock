@@ -1,6 +1,6 @@
 {
   "name": "zen-mock",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
   "main": "src/MockServer.js",
   "bin": {
@@ -13,8 +13,8 @@
     "debug": "node --inspect-brk examples/basic.js",
     "debug:zm": "cross-env DEBUG=zen-mock:bin zm"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["mock","express"],
+  "author": "zenheart",
   "license": "ISC",
   "devDependencies": {
     "cross-env": "^5.2.0",

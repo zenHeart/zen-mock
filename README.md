@@ -5,6 +5,14 @@ zen-mock
 
 ----
 
+## 快速入门
+1. 安装 zen-mock
+
+    ```bash
+    npm install -D zen-mock
+    ```
+2. 参看 [demo](./examples)
+
 ## todo
 * [X] 实现利用配置项启动 server
 * [X] 实现自定义 server 特性 
