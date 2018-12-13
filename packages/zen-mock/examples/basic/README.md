@@ -1,6 +1,6 @@
 ## 示例说明
 该示例说明如何使用 zen-mock 作为 mock-server. 
-使用前,确保已 [安装 zen-mock](../../README.md#install)
+使用前,确保已 [安装 zen-mock](../../README.md#安装)
 
 ## 示例步骤
 1 在项目根目录,创建 `mock-server` 文件夹,将 [examples/basic](../basic) 中的内容拷贝到 `mock-server`  
@@ -13,7 +13,7 @@
 
 参看 [index.js](./index.js) 注释可知,实例化 zen-mock 时会读取 `root` 设置的目录.此处为 [mock 文件夹](./mock) ,该文件夹包含了所有服务配置.每一个文件代表一个路由请求
 
-## 原理浅析 {#theory}
+## 原理浅析
 1. zen-mock 通过配置 `root`,递归解析该目录下的接口配置文件
 2. zen-mock 将配置文件转化为 express 的路由配置
 3. 内部实例化 express app 对象挂载路由配置
@@ -25,7 +25,7 @@ zen-mock 会默认结合文件夹及文件名作为路由.
 > **默认情况,配置文件的路径加上文件名即为请求路径,其中 index 会默认作为根目录**
 > 参看该示例中各配置文件说明
 
-### 配置示例说明 {#basic-config}
+### 配置示例说明
 配置文件路径|请求访问路径|说明
 :---|:---|:---|
 [index.json](./mock/index.json)|[/](http://localhost:3000)|默认 index 作为根目录
@@ -58,7 +58,7 @@ curl -X POST \
 > **注意任何时候修改了配置文件,多刷新一次重载路由,才可正常访问,后续不再赘述**
 
 
-你可以仿照 [示例配置](#basic-config) 创建新的路由文件验证上述特性.
+你可以仿照 [示例配置](#配置示例说明) 创建新的路由文件验证上述特性.
 
 详细的配置项参见 [config](./config.md)
 
