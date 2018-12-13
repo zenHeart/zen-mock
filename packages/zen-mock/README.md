@@ -6,7 +6,6 @@ zen-mock
 ----
 
 ## 项目说明
-zen-mock 是基于 [expressjs](http://expressjs.com/) 和 [mockjs](http://mockjs.com/) 的 mock server.
 通过配置项,快速模拟 server(**主要针对 JSON API 服务**)行为.
 
 适用基于接口分离的项目中,快速搭建 server.模拟后端行为
