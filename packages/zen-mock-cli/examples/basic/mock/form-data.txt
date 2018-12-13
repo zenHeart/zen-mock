@@ -1,0 +1,17 @@
+
+module.exports = {
+    req:{
+        method:'post',
+        header:{
+            'Content-Type':'multipart/form-data'
+        },
+        body:{
+            a:1,
+            b:2,
+            file1:''
+        }
+    },
+    resp:function(req,res) {
+        res.json(1);
+    }
+}

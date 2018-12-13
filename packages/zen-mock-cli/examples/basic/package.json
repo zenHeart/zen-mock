@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "remote":"node ./remote/index",
+    "mock:test":"npx zm test"
+  },
+  "devDependencies": {
+    "zen-mock":"latest",
+    "zen-mock-cli":"latest"
+  }
+}

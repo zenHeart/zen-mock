@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "examples:basic":"node index.js"
+  },
+  "dependencies": {
+    "zen-api-parser":"latest"
+  }
+}

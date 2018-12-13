@@ -1,0 +1,19 @@
+module.exports = {
+    code:/\d{6}/,
+    msg:'ok',
+    data:{
+        'record|1-10':[{
+            a:1,
+            b:2,
+            c:"@url()",
+            'd|1-3':[{
+                foo:1,
+                bar:true,
+                dar:{
+                    a:1,
+                    b:2
+                }
+            }]
+        }]
+    }
+}

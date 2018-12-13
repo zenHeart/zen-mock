@@ -1,0 +1,22 @@
+{
+  "name": "zen-mock-cli",
+  "version": "0.0.1",
+  "description": "",
+  "bin": {
+    "zen-mock": "./src/index.js",
+    "zm": "./src/index.js"
+  },
+  "scripts": {
+    "test": "mocha",
+    "debug": "node  --inspect-brk ./src/index.js test",
+    "zm": "cross-env DEBUG='zm:*' zm test"
+  },
+  "dependencies": {
+    "assertion-error": "^1.1.0",
+    "minimatch": "^3.0.4",
+    "zen-mock": "^0.0.1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
