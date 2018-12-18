@@ -1,6 +1,6 @@
 {
   "name": "zen-mock-cli",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "description": "",
   "bin": {
     "zen-mock": "./src/index.js",
