@@ -5,6 +5,7 @@
  */
 const {flattenObjToJsonType,isSubItem,sortObject} = require('../../utils');
 const  AssertError = require('assertion-error');
+const deepmerge = require('deepmerge');
 
 module.exports = {
     messaage(item) {
@@ -18,10 +19,10 @@ module.exports = {
         let keys = Object.keys(result);
 
         if(keys.some(key => result[key].length)) { //返回有结果说明出现错误
-            throw new AssertError(message,{
-                ...result,
+            result  = deepmerge(result,{
                 showDiff:true
-            });
+            })
+            throw new AssertError(message,result);
         }
         return true; 
     }

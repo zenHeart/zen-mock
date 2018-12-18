@@ -6,7 +6,7 @@ const root = __dirname+'/fixture';
  * 请求对象测试,
  * 返回 mockjs 生成的请求对象
  */
-describe('apiConfigParser', function () {
+describe('index', function () {
     it('默认配置', function () {
         let configFile = root+'/default.json';
         let api = apiConfigParser(configFile,root);
@@ -18,7 +18,7 @@ describe('apiConfigParser', function () {
         });
         expect(resp).to.be.an.instanceof(Function);
     })
-    it('index 默认配置', function () {
+    it('index 文件名', function () {
         let configFile = root+'/index.js';
         let api = apiConfigParser(configFile,root);
         let {req,resp} = api;
@@ -30,7 +30,7 @@ describe('apiConfigParser', function () {
         expect(resp).to.be.an.instanceof(Function);
     })
 
-    it('完全配置', function () {
+    it('所有配置项', function () {
         let configFile = root+'/all-config.js';
         let api = apiConfigParser(configFile,root);
         let {req,resp} = api;

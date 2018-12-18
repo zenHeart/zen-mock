@@ -1,20 +1,22 @@
 const path = require('path');
 const fs = require('fs');
 const debug = require('debug')('zm:utils');
-
+const deepmerge = require('deepmerge');
+const {DEFAULT_CONFIG} = require('./constant');
 /**
  * 允许不配置文件返回默认配置项
  * TODO:后续支持不配置 .zenmock 文件进行测试的功能
  */
-exports.readConfig = function () {
-    const CONFIG_FILE = '.zenmock';
+exports.readConfig = function (options = {}) {
+    let mergeConfig = deepmerge(DEFAULT_CONFIG,options);
+
     //从项目根目录读取配置文件
-    let fileName = path.resolve(CONFIG_FILE);
+    let fileName = path.resolve(mergeConfig.config);
     try {
         let config = require(fileName);
         return config;
     } catch (e) {
-        throw new Error('确保在项目根目录运行命令,且配置了 .zenmock 文件')
+        throw new Error(`未查找到 ${fileName} 配置文件,确保配置了 .zenmock 的 js 或 json 文件`)
     }
 }
 

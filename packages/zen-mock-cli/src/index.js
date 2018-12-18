@@ -9,13 +9,14 @@
 const program = require('commander');
 const fs = require('fs');
 const path = require('path');
-
+const deepmerge = require('deepmerge');
 
 //命令解析器
 const zmTest = require('./command/zm-test');
 const zmServe = require('./command/zm-serve');
+const zmPostman = require('./command/zm-postman');
 
-const { parseFileOpts, colorPrint } = require('./options');
+const { getParentOptions, parseFileOpts, colorPrint } = require('./options');
 
 
 /**
@@ -23,9 +24,7 @@ const { parseFileOpts, colorPrint } = require('./options');
  */
 program
     .version(JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'package.json'), 'utf8')).version)
-    .option('-C, --chdir <path>', 'change the working directory')
-    .option('-c, --config <path>', 'set config path. defaults to ./deploy.conf')
-    .option('-T, --no-tests', 'ignore test hook');
+    .option('-c, --config <path>', '设置配置文件路径,相对执行目录')
 
 program.command('test')
     .description('测试配置接口')
@@ -33,9 +32,8 @@ program.command('test')
     //利用事件进行触发
     .option('-f, --file <value>', '测试符合模式匹配的文件,模式匹配详见 minimatch', parseFileOpts) //不考虑文件名映射配置项
     .action(function (options) {
-
         zmTest({
-            file: options.file || null
+            file: options.file,
         });
     }).on('--help', function () {
         colorPrint('example', '\nExamples:\n');
@@ -59,14 +57,24 @@ program
     //option 只有在出现该选项时才会触发解析函数
     //利用事件进行触发
     .action(function (options) {
-        zmServe();
+        let parentOptions = getParentOptions(options);
+        console.log(parentOptions);
+        zmServe(parentOptions);
     });
 
 program
-  .command('*')
-  .action(function(env){
-    console.log('deploying "%s"', env);
-  });
+    .command('postman')
+    .description('导出为 postman collection')
+    .action(function (options) {
+        let parentOptions = getParentOptions(options);
+        zmPostman(parentOptions);
+    });
+//非法命令,显示帮助信息
+program
+    .command('*')
+    .action(function (env) {
+        program.help();
+    });
 
 //解析传入参数
 program.parse(process.argv);

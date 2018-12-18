@@ -13,8 +13,12 @@
   },
   "dependencies": {
     "assertion-error": "^1.1.0",
+    "convict": "^4.4.0",
+    "deepmerge": "^3.0.0",
     "minimatch": "^3.0.4",
-    "zen-mock": "^0.0.2"
+    "postman-collection": "^3.4.0",
+    "supertest": "^3.3.0",
+    "zen-mock": "file:../zen-mock"
   },
   "keywords": [],
   "author": "",

@@ -15,10 +15,14 @@
     * `req.items` 可选,在 zen-mock-cli 中模拟字段
     * `req.body` 可选,在 zen-mock-cli 中模拟请求体
 * `resp` 可选,配置响应
+    若为函数则直接,作为 express 响应句柄,
+    若为对象则支持如下选项
     * `resp.header` 可选,配置响应头
-    * `resp.body` 必选配置响应体,可以为函数或,对象,对象会直接调用 mockjs 生成数据
+    * `resp.body` 必须,配置响应体
+  
+    若不包含 body ,则整个对象作为响应体.
 
-注意在设定配置时,zen-mock 做了如下处理,来简化配置.
+> 注意在设定配置时,zen-mock 做了如下处理,来简化配置.
 
 1. 未检测到 `req` 配置
     * 设定请求为 get
@@ -27,7 +31,7 @@
     > 若文件名为 index 则只提取路径作为路由
 2. 根对象未检测到 `resp` 配置项
     1. 若为 json 文件则将整个文件作为 `resp.body` 的配置项
-    2. 若为 js 文件
+    2. 若为函数
         1. 若返回函数则将之间作为 express 的路由 handle
         2. 若为对象则整个对象作为, `reps.body` 的配置项,放入 `Mock.mock` 生成响应数据
 

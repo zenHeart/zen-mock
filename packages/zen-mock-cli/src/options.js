@@ -2,6 +2,8 @@
  * Created by lockepc on 2017/6/13.
  */
 const colors = require('colors/safe');
+const {DEFAULT_CONFIG} = require('./constant');
+
 
 // set theme
 colors.setTheme({
@@ -38,6 +40,20 @@ function parseFileOpts(filename) {
         return  filename;
 }
 
+
+/**
+ * 提取父命令上合法选项
+ * @param {object} options commander  对象
+ */
+exports.getParentOptions = function getParentOptions(options) {
+    let {parent} = options;
+    let parentOptions = {};
+    for( let key in DEFAULT_CONFIG) {
+        parentOptions[key] = parent[key] || DEFAULT_CONFIG[key]
+    }
+
+    return parentOptions;
+}
 
 
 

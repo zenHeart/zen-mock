@@ -16,8 +16,10 @@ exports.isEmptyObj = function isEmptyObj(obj) {
  * 检查对象是否包含某个 key
  * @param  {array} keys 键名数组
  * @param  {object} obj 输入对象
+ * @param {object} options 设定检查规则
+ * @param {object} options 设定检查规则
  */
-exports.isObjectHasKeys = function isObjectHasKeys(keys,obj) {
+exports.isObjectHasKeys = function isObjectHasKeys(keys,obj,options = {}) {
     if(obj === null || (typeof obj !== 'object')) {
         return false;
     }

@@ -9,6 +9,7 @@ const express = require('express');
 const apiConfigParser = require('zen-api-parser');
 
 const { DEFAULT_CONFIG } = require('./constants');
+const deepmerge = require('deepmerge');
 
 //独立的工具包
 const { flattenPathFile, getRelativeName } = require('./utils');
@@ -39,7 +40,7 @@ module.exports = class MockServer {
     constructor(config) {
 
         //创建  app 实例
-        this.config = { ...DEFAULT_CONFIG, ...config };
+        this.config = deepmerge(DEFAULT_CONFIG,config)
 
         //添加快捷索引
         this.root = this.config.root;

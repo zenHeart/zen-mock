@@ -5,6 +5,7 @@ const path = require('path');
 const debug = require('debug')('zen-mock:utils');
 const minimatch = require('minimatch');// 采用 glob 来处理文件解析问题
 const {DEFAULT_CONFIG} = require('./constants');
+const deepmerge = require('deepmerge');
 
 
 
@@ -42,7 +43,7 @@ function isIgnorePath(source, ignorePath) {
  * @param {string} options.extPattern 可选,符合 minimatch 中的后缀,配置后只提取符合要求文件
  * @param {array} options.ignoreDir  葫芦目录,相对 root 而言,配置后会跳过该目录
  */
-function flattenPathFile(root,options) {
+function flattenPathFile(root,options={}) {
       //非绝对路径直接抛出错误
       if (!path.isAbsolute(root)) {
         throw new Error("make sure is absolute path,you can use path.join(__dirname,<relativePath>)");
@@ -52,9 +53,9 @@ function flattenPathFile(root,options) {
      * 合并默认配置
      * 由于配置项为 1 维未采用 deepmerge 
      */
-    options = {...{
+    options = deepmerge({
         extPattern:DEFAULT_CONFIG.extPattern
-    },...options};
+    },options);
 
     let {extPattern} = options;
     let flattenPathFiles = [];//存储扁平化后的文件

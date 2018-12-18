@@ -29,6 +29,8 @@
     "url": "https://github.com/zenheart/zen-mock/issues"
   },
   "dependencies": {
+    "convict": "^4.4.0",
+    "deepmerge": "^3.0.0",
     "mockjs": "^1.0.1-beta3"
   }
 }
