@@ -1,7 +1,8 @@
 {
   "private": true,
   "scripts": {
-    "ci":"npm test",
+    "bootstrap":"lerna bootstrap && lerna exec npm install",
+    "ci":"npm run bootstrap && npm test",
     "test": "mocha packages/**/test/*.test.js --exit",
     "test:watch": "mocha -w packages/**/test/*.test.js"
   },
