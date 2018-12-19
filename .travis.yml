@@ -1,0 +1,27 @@
+
+# git clone 深度为 3
+git:
+  depth: 3
+
+
+language: node_js
+
+node_js:
+  - "6"
+  - "7"
+  - "8"
+  - "9"
+  - "10"
+
+os:
+   - linux
+  
+cache: npm
+
+install: npm install
+
+before_script:
+  - npm config set loglevel warn
+
+script:
+  - npm run ci

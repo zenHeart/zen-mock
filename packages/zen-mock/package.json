@@ -31,6 +31,7 @@
     "minimatch": "^3.0.4",
     "mockjs": "^1.0.1-beta3",
     "morgan": "^1.9.1",
-    "postman-collection": "^3.3.0"
+    "postman-collection": "^3.3.0",
+    "zen-api-parser": "file:../zen-api-parser"
   }
 }

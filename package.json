@@ -1,7 +1,9 @@
 {
   "private": true,
   "scripts": {
-    "test": "lerna exec --scope 'zen*' -- npm run test"
+    "ci":"npm test",
+    "test": "mocha packages/**/test/*.test.js --exit",
+    "test:watch": "mocha -w packages/**/test/*.test.js"
   },
   "devDependencies": {
     "chai": "^4.2.0",
@@ -9,9 +11,11 @@
     "colors": "*",
     "cross-env": "^5.2.0",
     "debug": "*",
+    "expect.js": "^0.3.1",
     "jest": "^23.6.0",
     "lerna": "^3.4.3",
     "mocha": "^5.2.0",
+    "nodeunit": "^0.11.3",
     "supertest": "^3.3.0",
     "supervisor": "^0.12.0"
   },
