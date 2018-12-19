@@ -8,10 +8,6 @@ const  AssertError = require('assertion-error');
 const deepmerge = require('deepmerge');
 
 module.exports = {
-    messaage(item) {
-        return item.message || 
-        `${item.name}`
-    },
     apiDiff,
     apiEqual(expectResp,realResp,message = 'api data error') {
         let result = apiDiff(expectResp,realResp);

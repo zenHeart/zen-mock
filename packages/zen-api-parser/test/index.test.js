@@ -30,6 +30,17 @@ describe('index', function () {
         expect(resp).to.be.an.instanceof(Function);
     })
 
+    it('配置为函数',function() {
+        let configFile = root+'/function.js';
+        let api = apiConfigParser(configFile,root);
+        let {req,resp} = api;
+
+        expect(req.path).to.equal('/function');
+        expect(req.method).to.equal('get');
+        expect(resp).to.be.an.instanceof(Function);
+        expect(resp).to.equal(require(configFile));
+    })
+
     it('所有配置项', function () {
         let configFile = root+'/all-config.js';
         let api = apiConfigParser(configFile,root);

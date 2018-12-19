@@ -18,7 +18,9 @@ os:
   
 cache: npm
 
-install: npm install
+install: 
+  - npm install
+
 
 before_script:
   - npm config set loglevel warn

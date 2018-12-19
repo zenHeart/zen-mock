@@ -1,10 +1,10 @@
 const path = require('path');
 const { expect } = require('chai');
-const { flattenPathFile, isIllegatExt, isIgnorePath } = require('../src/utils');
+const { getBaseName, flattenPathFile, isIllegatExt, isIgnorePath } = require('../src/utils');
 
 
 
-describe('utils', function () {
+describe('zen-mock utils', function () {
     describe('flattenPathFile', function () {
         it('test root must absolutpath', function () {
             let badFunc = () => { flattenPathFile('./sdf') };
@@ -139,6 +139,17 @@ describe('utils', function () {
                 expect(isIgnorePath.apply(this, ele.input)).to.equal(ele.expect);
             })
         });
+    })
+
+    describe('getBaseName', function () {
+        it('包含文件后缀', function () {
+            expect(getBaseName('demo.txt')).to.equal('demo')
+        })
+
+        it('不包含文件后缀', function () {
+            expect(getBaseName('demo/foo')).to.equal('foo')
+        })
+
     })
 
 }) 

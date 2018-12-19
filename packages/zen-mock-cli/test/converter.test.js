@@ -53,5 +53,34 @@ describe('zm-postman/converter', function () {
                 "url": "/sdf",
             },name:'tom'});
         });
+
+        it('携带相同 header', function () {
+            expect(convertToPostman({
+                method: 'get',
+                url: '/sdf',
+                header: {
+                    'Etags':12
+                },
+                body: 'tom'
+            },{name:'tom'})).to.deep.equal({
+                request:{
+                "body": {
+                    "mode": "raw",
+                    "raw": "\"tom\"",
+                },
+                "header": [
+                    {
+                        "key": "Etags",
+                        "value": 12
+                    },
+                    {
+                        "key": "Content-type",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "GET",
+                "url": "/sdf",
+            },name:'tom'});
+        });
     })
 })

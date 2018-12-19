@@ -1,3 +1,5 @@
 exports.DEFAULT_CONFIG = {
-    config: '.zenmock' //默认配置文件读取位置
+    config:'.', //默认配置文件读取目录
+    configFileName:'.zenmock'//默认配置文件名
+
 }

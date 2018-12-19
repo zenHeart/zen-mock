@@ -11,7 +11,7 @@ describe('zm-postman/collections', function () {
     describe('collections', function () {
         it('基础转换', function () {
             let result = createCollertions({
-                config: path.relative(path.resolve(), __dirname + '/fixture/.zenmock')
+                config: path.relative(path.resolve(), __dirname + '/fixture')
             });
             expect(result.item).to.instanceOf(Array);
             expect(result.item[0]).to.have.nested.property('name','basic');

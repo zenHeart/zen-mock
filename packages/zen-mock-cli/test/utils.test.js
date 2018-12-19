@@ -1,5 +1,6 @@
 const { assert, should, expect } = require('chai');
-const { getJsonType, flattenObjToJsonType,isSubItem,sortObject} = require('../src/utils.js');
+const { readConfig, getJsonType, flattenObjToJsonType, isSubItem, sortObject } = require('../src/utils.js');
+const path = require('path');
 
 describe('utils', function () {
     /**
@@ -48,7 +49,7 @@ describe('utils', function () {
                 b: {
                     c: 1,
                     d: 'df',
-                    q: [{ foo: 1, bar: true, d:{a:1}}]
+                    q: [{ foo: 1, bar: true, d: { a: 1 } }]
                 }
             })).to.deep.equal({
                 a: 'object',
@@ -56,11 +57,11 @@ describe('utils', function () {
                 'b.c': 'number',
                 'b.d': 'string',
                 'b.q': 'array',
-                'b.q.0':'object',
-                'b.q.0.foo':'number',
-                'b.q.0.bar':'boolean',
-                'b.q.0.d':'object',
-                'b.q.0.d.a':'number',
+                'b.q.0': 'object',
+                'b.q.0.foo': 'number',
+                'b.q.0.bar': 'boolean',
+                'b.q.0.d': 'object',
+                'b.q.0.d.a': 'number',
             });
         });
         it('array', function () {
@@ -71,59 +72,80 @@ describe('utils', function () {
         it('recuresive a', function () {
             expect(flattenObjToJsonType({
                 a: [{ a: [{ a: 1 }] }]
-            })).to.deep.equal({ a: 'array', 'a.0': 'object', 'a.0.a': 'array' ,'a.0.a.0':'object','a.0.a.0.a':'number'});
+            })).to.deep.equal({ a: 'array', 'a.0': 'object', 'a.0.a': 'array', 'a.0.a.0': 'object', 'a.0.a.0.a': 'number' });
         });
         it('object null', function () {
             expect(flattenObjToJsonType({
-                c:1,
-                d:{a:1,b:null},
+                c: 1,
+                d: { a: 1, b: null },
                 a: null,
                 b: null
-            })).to.deep.equal({ c:'number',d:'object','d.a':'number','d.b':'object',a: 'object', b: 'object' });
+            })).to.deep.equal({ c: 'number', d: 'object', 'd.a': 'number', 'd.b': 'object', a: 'object', b: 'object' });
         });
     });
 
 
     //判断是否为子字段
-    describe('isSubItem',function() {
-        it('one item',function() {
-            expect(isSubItem('df.sdf',['df'])).to.true;
+    describe('isSubItem', function () {
+        it('one item', function () {
+            expect(isSubItem('df.sdf', ['df'])).to.true;
         })
-        it('multi item',function() {
-            expect(isSubItem('df.sdf',['df','sdf','dfg'])).to.true;
+        it('multi item', function () {
+            expect(isSubItem('df.sdf', ['df', 'sdf', 'dfg'])).to.true;
         })
-        it('recursive multi item',function() {
-            expect(isSubItem('df.sdf.g.0',['df.sdf','sdf','dfg'])).to.true;
+        it('recursive multi item', function () {
+            expect(isSubItem('df.sdf.g.0', ['df.sdf', 'sdf', 'dfg'])).to.true;
         })
-        it('not true',function() {
-            expect(isSubItem('dfg1.sdf',['df','sdf','dfg'])).to.false;
+        it('not true', function () {
+            expect(isSubItem('dfg1.sdf', ['df', 'sdf', 'dfg'])).to.false;
         })
     })
 
-    describe('sortObject',function() { //排序对象
-        it('simple',function() {
+    describe('sortObject', function () { //排序对象
+        it('simple', function () {
             expect(Object.keys(sortObject({
-                'a.0':1,
-                a:1,
-            }))).to.ordered.members(['a','a.0'])
+                'a.0': 1,
+                a: 1,
+            }))).to.ordered.members(['a', 'a.0'])
         })
 
-        it('multi object',function() {
+        it('multi object', function () {
             expect(Object.keys(sortObject({
-                '0.a':1,
-                a:1,
-                'a.0':1,
-                'f.g.c':1,
-                'f.g.0.c':1,
-                'f.g':1,
-                f:1
-            }))).to.ordered.members( ["0.a",
-             "a",
-             "a.0",
-             "f",
-             "f.g",
-             "f.g.0.c",
-             "f.g.c"])
+                '0.a': 1,
+                a: 1,
+                'a.0': 1,
+                'f.g.c': 1,
+                'f.g.0.c': 1,
+                'f.g': 1,
+                f: 1
+            }))).to.ordered.members(["0.a",
+                "a",
+                "a.0",
+                "f",
+                "f.g",
+                "f.g.0.c",
+                "f.g.c"])
         })
+    })
+
+    describe('readConfig', function () {
+        it('配置文件不存在抛出错误', function () {
+            let failFunc = () => {
+                readConfig()
+            }
+            expect(failFunc).to.throw(/确保配置了 .zenmock/)
+        })
+        it('读取相对路径配置文件', function () {
+            expect(readConfig({
+                config: path.relative(path.resolve(), path.join(__dirname, 'fixture'))
+            })).to.deep.equal({ root: __dirname + '/fixture/mock' });
+        })
+
+        it('读取绝对路径配置文件', function () {
+            expect(readConfig({
+                config: __dirname+'/fixture'
+            })).to.deep.equal({ root: __dirname + '/fixture/mock' });
+        })
+
     })
 })

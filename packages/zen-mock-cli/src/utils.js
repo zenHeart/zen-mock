@@ -9,14 +9,18 @@ const {DEFAULT_CONFIG} = require('./constant');
  */
 exports.readConfig = function (options = {}) {
     let mergeConfig = deepmerge(DEFAULT_CONFIG,options);
-
-    //从项目根目录读取配置文件
-    let fileName = path.resolve(mergeConfig.config);
+    let {config,configFileName} = mergeConfig;
+    let configFile = '';
+    if(path.isAbsolute(config)) { //如果绝对路径则直接和文件名拼接
+        configFile = path.join(config,configFileName);
+    } else { //相对路径则相对运行目录设定配置文件
+        configFile = path.resolve(config,configFileName);
+    }
+        
     try {
-        let config = require(fileName);
-        return config;
+        return require(configFile);
     } catch (e) {
-        throw new Error(`未查找到 ${fileName} 配置文件,确保配置了 .zenmock 的 js 或 json 文件`)
+        throw new Error(`未查找到 ${configFile} 配置文件,确保配置了 .zenmock 的 js 或 json 文件`)
     }
 }
 
