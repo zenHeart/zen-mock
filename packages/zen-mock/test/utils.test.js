@@ -1,6 +1,6 @@
 const path = require('path');
 const { expect } = require('chai');
-const { getBaseName, flattenPathFile, isIllegatExt, isIgnorePath } = require('../src/utils');
+const { getBaseName, flattenPathFile, isIllegatExt, isIgnorePath } = require('../lib/utils');
 
 
 

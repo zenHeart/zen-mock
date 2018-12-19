@@ -1,5 +1,5 @@
 const { assert, should, expect } = require('chai');
-const { convertToPostman } = require('../src/command/zm-postman/converter');
+const { convertToPostman } = require('../lib/command/zm-postman/converter');
 
 describe('zm-postman/converter', function () {
     /**

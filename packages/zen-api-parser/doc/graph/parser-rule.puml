@@ -1,0 +1,16 @@
+@startuml
+
+start
+:require 读取配置文件;
+if (配置是否是函数) then (yes)
+    :作为 resp 配置;
+    end
+elseif (是否是合法配置对象(同时包含 req,resp 配置)) then (no)
+    :整个内容传入 respond 解析;
+    end
+else
+    :req 配置,载入 request 解析;
+    :resp 配置,载入 respond 解析;
+    end
+endif
+@enduml

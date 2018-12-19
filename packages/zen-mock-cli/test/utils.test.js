@@ -1,5 +1,5 @@
 const { assert, should, expect } = require('chai');
-const { readConfig, getJsonType, flattenObjToJsonType, isSubItem, sortObject } = require('../src/utils.js');
+const { readConfig, getJsonType, flattenObjToJsonType, isSubItem, sortObject } = require('../lib/utils.js');
 const path = require('path');
 
 describe('utils', function () {

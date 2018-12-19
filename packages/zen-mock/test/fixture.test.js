@@ -1,7 +1,7 @@
 //基准测试验证 mockserver 功能
 const path = require('path');
 const supertest = require('supertest');
-const MockServer = require('../src/MockServer');
+const MockServer = require('../lib/MockServer');
 const { expect } = require('chai');
 
 

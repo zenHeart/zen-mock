@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "start:mock": "node index"
+  },
+  "devDependencies": {
+    "zen-mock": "latest"
+  }
+}

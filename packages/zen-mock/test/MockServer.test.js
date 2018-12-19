@@ -1,5 +1,5 @@
 const { expect } = require('chai');
-const MockServer = require('../src/MockServer');
+const MockServer = require('../lib/MockServer');
 
 describe('MockServer', function () {
     describe('测试 MockServer 实例属性', function () {

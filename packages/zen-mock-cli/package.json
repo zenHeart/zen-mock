@@ -2,13 +2,19 @@
   "name": "zen-mock-cli",
   "version": "0.0.4",
   "description": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zenHeart/zen-mock/tree/master/packages/zen-mock-cli"
+  },
+  "bugs": {
+    "url": "https://github.com/zenheart/zen-mock/issues"
+  },
   "bin": {
-    "zen-mock": "./src/index.js",
-    "zm": "./src/index.js"
+    "zen-mock": "./lib/index.js",
+    "zm": "./lib/index.js"
   },
   "scripts": {
-    "test": "mocha",
-    "debug": "node  --inspect-brk ./src/index.js test",
+    "debug": "node  --inspect-brk ./lib/index.js test",
     "zm": "cross-env DEBUG='zm:*' zm test"
   },
   "dependencies": {

@@ -20,10 +20,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/zenheart/zen-mock.git"
-  },
-  "scripts": {
-    "test": "mocha"
+    "url": "https://github.com/zenHeart/zen-mock/tree/master/packages/zen-api-parser"
   },
   "bugs": {
     "url": "https://github.com/zenheart/zen-mock/issues"

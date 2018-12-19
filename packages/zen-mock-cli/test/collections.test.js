@@ -1,5 +1,5 @@
 const { assert, should, expect } = require('chai');
-const { createCollertions } = require('../src/command/zm-postman/collections');
+const { createCollertions } = require('../lib/command/zm-postman/collections');
 const path = require('path');
 
 describe('zm-postman/collections', function () {

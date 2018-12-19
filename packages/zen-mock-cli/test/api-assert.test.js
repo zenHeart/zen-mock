@@ -1,5 +1,5 @@
 const { assert, should, expect } = require('chai');
-const { apiDiff, apiEqual } = require('../src/command/zm-test/api-assert')
+const { apiDiff, apiEqual } = require('../lib/command/zm-test/api-assert')
 
 describe('api-assert', function () {
     describe('apiEqual', function () {

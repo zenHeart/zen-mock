@@ -2,13 +2,15 @@
   "name": "zen-mock",
   "version": "0.0.4",
   "description": "zen-mock",
-  "main": "src/MockServer.js",
+  "main": "lib/MockServer.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/zenHeart/zen-mock"
+    "url": "https://github.com/zenHeart/zen-mock/tree/master/packages/zen-mock"
+  },
+  "bugs": {
+    "url": "https://github.com/zenheart/zen-mock/issues"
   },
   "scripts": {
-    "test": "mocha --exit",
     "examples:basic": "export DEBUG='zen-mock:*';node examples/basic",
     "debug": "node --inspect-brk examples/basic.js",
     "debug:zm": "cross-env DEBUG=zen-mock:bin zm"
