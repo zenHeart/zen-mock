@@ -16,7 +16,7 @@ const zmTest = require('./command/zm-test');
 const zmServe = require('./command/zm-serve');
 const zmPostman = require('./command/zm-postman');
 
-const { getParentOptions, parseFileOpts, colorPrint } = require('./options');
+const { mergeOptions, parseFileOpts,parseUrlOpts, colorPrint } = require('./options');
 
 
 /**
@@ -24,17 +24,19 @@ const { getParentOptions, parseFileOpts, colorPrint } = require('./options');
  */
 program
     .version(JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'package.json'), 'utf8')).version)
-    .option('-c, --config <path>', '设置配置文件路径,相对执行目录')
+    .option('-c, --config <path>', '设置 .zenmock.js 命令配置目录,支持相对和绝对路径')
+    .option('-r, --root <path>', 'mock 路由配置目录,支持相对和绝对路径,默认为 mock 文件夹')
 
 program.command('test')
     .description('测试配置接口')
     //option 只有在出现该选项时才会触发解析函数
     //利用事件进行触发
     .option('-f, --file <value>', '测试符合模式匹配的文件,模式匹配详见 minimatch', parseFileOpts) //不考虑文件名映射配置项
+    .option('-t, --timeout <number>', '设定请求超时时间,单位 ms,默认为 5000', parseInt) //不考虑文件名映射配置项
+    .option('-u,--testUrl <url>', '待测试地址,默认为 http://localhost',parseUrlOpts) //不考虑文件名映射配置项
     .action(function (options) {
-        zmTest({
-            file: options.file,
-        });
+        let allOptions = mergeOptions(options);
+        zmTest(allOptions);
     }).on('--help', function () {
         colorPrint('example', '\nExamples:\n');
         colorPrint('example', '\tzm test');
@@ -53,21 +55,21 @@ program.command('test')
 
 program
     .command('serve')
-    .description('启动服务')
+    .option('-p, --port <number>', '设定服务端口,默认为 3000', parseInt) //不考虑文件名映射配置项
+    .description('启动 mock server 服务')
     //option 只有在出现该选项时才会触发解析函数
     //利用事件进行触发
     .action(function (options) {
-        let parentOptions = getParentOptions(options);
-        console.log(parentOptions);
-        zmServe(parentOptions);
+        let allOptions = mergeOptions(options);
+        zmServe(allOptions);
     });
 
 program
     .command('postman')
     .description('导出为 postman collection')
     .action(function (options) {
-        let parentOptions = getParentOptions(options);
-        zmPostman(parentOptions);
+        let allOptions = mergeOptions(options);
+        zmPostman(allOptions);
     });
 //非法命令,显示帮助信息
 program

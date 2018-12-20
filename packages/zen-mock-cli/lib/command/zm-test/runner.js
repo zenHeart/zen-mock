@@ -5,18 +5,14 @@ const { EventEmitter } = require('events');
 const request = require('supertest');
 const MockServer = require('zen-mock');
 const minimatch = require("minimatch")
+const deepmerge = require('deepmerge')
 const debug = require('debug')('zm:zm-test/runner');
 const fs = require('fs');
 
-
-
 const { apiEqual } = require('./api-assert');
-const { readConfig } = require('../../utils');
+const {test:defaultConfig} = require('../../constant').DEFAULT_CONFIG;
 
-const defaultConfig = {
-    timeout: 5000,//请求默认等待时间,最长为 5 s
-    totalTests: 0,//测试用例数量,默认为
-}
+
 const TEST_STATUS = {
     INITIAL: 'initial',//初始化
     START: 'start',//开始测试用例
@@ -26,16 +22,14 @@ const TEST_STATUS = {
 }
 
 exports = module.exports = class TestRunner extends EventEmitter {
-    constructor(config = defaultConfig) {
+    constructor(options = defaultConfig) {
         super();
-        //目前是一维配置无需 deepMerge
-        this.config = { ...defaultConfig, ...config };//简单合并配置
+        this.config = options;
         this.setup();
-
     }
     setup() {
+        let {config} = this;
         //读取命令行运行配置
-        let config = readConfig();
         if (!config.testUrl) { //若未配置待测试地址则抛出错误
             throw new Error('请配置待测试地址,例如  testUrl:"http://localhost/test"');
         }
@@ -43,7 +37,7 @@ exports = module.exports = class TestRunner extends EventEmitter {
         //实例化 zen-mock
         this.mockServer = new MockServer(config);
         this.apisConfig = this.mockServer.apisConfig;//快捷获取 api 的配置项
-        debug("parser config finish ,all configs:%o",this.apisConfig);
+        debug("parser config finish ,all configs:%o", this.apisConfig);
         this.testUnits = {};//存储所有测试用例,默认为空
         //配置待测服务器地址
         this.requestTester = request(config.testUrl);
@@ -63,24 +57,24 @@ exports = module.exports = class TestRunner extends EventEmitter {
      * 
      * @param {object} options 支持如下选项
      */
-    run(options) {//运行测试用例
-
+    run() {//运行测试用例
+        let {config} = this;
         let apisKey = Object.keys(this.apisConfig);
 
-        this.emit(TEST_STATUS.START);//开启测测试用例运行
+        this.emit(TEST_STATUS.START,config);//开启测测试用例运行
 
 
         apisKey.forEach(key => {
-            if (options.file) { //如果设置了测试文件
+            if (config.file) { //如果设置了测试文件
                 debug(options);
-                if (!minimatch(key, options.file)) { //如果文件不匹配设定模式
+                if (!minimatch(key, config.file)) { //如果文件不匹配设定模式
                     return;
                 }
             }
 
             this.testUnits[key] = TEST_STATUS.START;
 
-            apiTestRunner(this.mockServer, this.requestTester, this.apisConfig[key])
+            apiTestRunner(this.mockServer, this.requestTester, this.apisConfig[key],config)
                 .then(() => {
                     this.emit(TEST_STATUS.SUCCESS, key); //测试用例运行成功返回结果
                 })
@@ -121,16 +115,38 @@ exports.TEST_STATUS = TEST_STATUS;
 
 /**
  * api 测试运行器
+ * @param {Object} mockServer mock 服务对象
  * @param {Object} httpAgent http 代理,用来执行请求
  * @param {Object} apiConfig api 接口配置文件 
+ * @param {Object} options 测试运行器的配置项
  */
-async function apiTestRunner(mockServer, httpAgent, apiConfig) {
+function apiTestRunner(mockServer, httpAgent, apiConfig,config=defaultConfig) {
+
     let { req } = apiConfig;
+    let mockRespond, remoteRespond;
+    return Promise.race([makeRequest(request(mockServer.app), req)
+        .then((respond) => {
+            mockRespond = respond;
+            return makeRequest(httpAgent, req);
+        })
+        .then((respond) => {
+            remoteRespond = respond;
+        })
+        .then(() => {
+           return  apiEqual(mockRespond.body, remoteRespond.body)
+        }),createTimeoutPromise(config.timeout)])
+}
 
-    let mockRespond = await makeRequest(request(mockServer.app), req);
-    let remoteRespond = await makeRequest(httpAgent, req);
-
-    apiEqual(mockRespond.body, remoteRespond.body)
+/**
+ * 设定超时定时器,处理响应超时问题
+ * @param {*} timeout  设定超时时间
+ */
+function createTimeoutPromise(timeout) {
+    return new Promise(function (resolve, reject) {
+        setTimeout(() => {
+            reject(new Error(`响应超时,${timeout}ms 没有响应`))
+        }, timeout);
+    })
 }
 
 /**

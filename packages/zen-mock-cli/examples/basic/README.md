@@ -48,73 +48,21 @@ npm run remote
 npm run mock:test
 ```
 
-可以看到如下输出
+![](./zm-test.png)
 
-```
-× get /complex file:'complex'
-× post /apps file:'createApp'
-× get /demo file:'demo'
-× get /fun/test file:'fun/test'
-× get /raw-string file:'raw-string'
-√ get /app/:appId file:'getApp'
-√ post /x-www-form-urlencoded file:'x-www-form-urlencoded'
-√ post /form-data file:'form-data'
-× get /delay-5 file:'delay-5'
-√ get / file:'index'
-
-total:10 √:4 ×:6
-
-
-get /complex file:complex
-	missing item
-		respond.data.record.0.b
-	invalid item
-		respond.data.record.0.d.0.bar expect:boolean	get:number
-		respond.data.record.0.d.0.dar expect:object	get:array
-		respond.msg expect:string	get:number
-
-
-post /apps file:createApp
-	invalid item
-		respond.data.appId expect:string	get:number
-
-
-get /demo file:demo
-	missing item
-		respond.data.record.0.b
-	invalid item
-		respond.code expect:number	get:string
-		respond.data.record.0.foo expect:array	get:object
-
-
-get /fun/test file:fun/test
-	invalid item
-		respond expect:string	get:number
-
-
-get /raw-string file:raw-string
-	invalid item
-		respond expect:string	get:object
-
-
-get /delay-5 file:delay-5
-	missing item
-		respond.data
-```
 
 该输出即是利用 mock 作为期望输出和服务端实际输出进行对比.
-可以直观的看出服务端有 6 个接口的输出不符合 mock 期望.
+可以直观的看出服务端有 7 个接口的输出不符合 mock 期望.
 后续详细说明了各出错接口的原因.
 
 * `missing item` 表示缺失字段
 * `ivalid item` 表示不符合期望类型的字段
 
     > 此处我们只提供了简单的 json 类型匹配,复杂类型校验会增加额外的配置复杂性,目前暂不考虑
+* 一个接口响应超时,可使用 `timeout` 选项设定超时时间
+详细的配置执行 `zm --help` 或运行子命令 `--help` 查看.
 
-详细的配置参看 [mock 目录范例](./mock) 
-
-在接口联调前,前端都可以直接运行该命令验证后端接口是否符合规范,
-减少手动调试时间.
+> 所有命令配置项均可在项目根目录的 `.zenmock.js` 文件中写入.避免在命令中进行传入.
 
 
 

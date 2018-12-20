@@ -1,7 +1,7 @@
 {
   "scripts": {
     "remote":"node ./remote/index",
-    "mock:test":"npx zm test"
+    "mock:test":"zm test"
   },
   "devDependencies": {
     "zen-mock":"latest",

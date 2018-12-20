@@ -15,6 +15,6 @@ module.exports = function zmPostman(options) {
     let collections = createCollertions(options);
     let savePath = path.join(defaultConfig.savePath,defaultConfig.saveName);
     fs.writeFileSync(savePath,JSON.stringify(collections));
-    colorPrint('success',`已保存为 zm.json,可导入 postman`);
+    colorPrint('success',`当前目录保存 zm.json 成功,可导入 postman`);
 }
 

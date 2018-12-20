@@ -1,5 +1,5 @@
 const { assert, should, expect } = require('chai');
-const { readConfig, getJsonType, flattenObjToJsonType, isSubItem, sortObject } = require('../lib/utils.js');
+const {getJsonType, flattenObjToJsonType, isSubItem, sortObject } = require('../lib/utils.js');
 const path = require('path');
 
 describe('utils', function () {
@@ -128,24 +128,4 @@ describe('utils', function () {
         })
     })
 
-    describe('readConfig', function () {
-        it('配置文件不存在抛出错误', function () {
-            let failFunc = () => {
-                readConfig()
-            }
-            expect(failFunc).to.throw(/确保配置了 .zenmock/)
-        })
-        it('读取相对路径配置文件', function () {
-            expect(readConfig({
-                config: path.relative(path.resolve(), path.join(__dirname, 'fixture'))
-            })).to.deep.equal({ root: __dirname + '/fixture/mock' });
-        })
-
-        it('读取绝对路径配置文件', function () {
-            expect(readConfig({
-                config: __dirname+'/fixture'
-            })).to.deep.equal({ root: __dirname + '/fixture/mock' });
-        })
-
-    })
 })

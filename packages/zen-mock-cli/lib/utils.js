@@ -3,26 +3,8 @@ const fs = require('fs');
 const debug = require('debug')('zm:utils');
 const deepmerge = require('deepmerge');
 const {DEFAULT_CONFIG} = require('./constant');
-/**
- * 允许不配置文件返回默认配置项
- * TODO:后续支持不配置 .zenmock 文件进行测试的功能
- */
-exports.readConfig = function (options = {}) {
-    let mergeConfig = deepmerge(DEFAULT_CONFIG,options);
-    let {config,configFileName} = mergeConfig;
-    let configFile = '';
-    if(path.isAbsolute(config)) { //如果绝对路径则直接和文件名拼接
-        configFile = path.join(config,configFileName);
-    } else { //相对路径则相对运行目录设定配置文件
-        configFile = path.resolve(config,configFileName);
-    }
-        
-    try {
-        return require(configFile);
-    } catch (e) {
-        throw new Error(`未查找到 ${configFile} 配置文件,确保配置了 .zenmock 的 js 或 json 文件`)
-    }
-}
+const {colorPrint} = require('./options');
+
 
 
 exports.flattenObjToJsonType = flattenObjToJsonType;
@@ -37,8 +19,8 @@ exports.flattenObjToJsonType = flattenObjToJsonType;
  * 假设 api 返回 {a:1,b:[{a:1},{a:2}]}
  * 则对应的字段结构为 {a:'number',b:'array','b.0.a':'number'}
  * @param {object} obj 传入的转换对象
- * @param {key} string 对应的键名
- * @param {parentKey} string 对应的父键名
+ * @param {key} string 对应的键名
+ * @param {parentKey} string 对应的父键名
  * 
  */
 function flattenObjToJsonType(obj) {

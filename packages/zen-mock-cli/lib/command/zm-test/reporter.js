@@ -55,12 +55,19 @@ function normalErr(err,apiInfo) {
 module.exports = function report(runner) {
     let failures = [];
 
+    runner.on(TEST_STATUS.START,(config) => {
+        console.log(colors.blue(util.format(
+            "测试地址: %s\n验证结果:\n",config.testUrl
+        )))
+
+    })
+
     runner.on(TEST_STATUS.FAIL, (err, key) => {
         //提取该 api 对应信息
         let apiConfig = runner.apisConfig[key];
         let { req } = apiConfig;
         //输出格式:失败符号 请求方法名 请求路径 file:mock文件名
-        console.log(colors.fail(util.format("%s %s %s file:%o", RESULT_ICON.FAIL, req.method, req.path, key)));
+        console.log(colors.fail(util.format("%s %s %s file:%s", RESULT_ICON.FAIL, req.method, req.path, key)));
 
         if (err.showDiff) {
             failures.push(stringfyApiDiff(err, {
@@ -81,7 +88,7 @@ module.exports = function report(runner) {
         let apiConfig = runner.apisConfig[key];
         let { req } = apiConfig;
         //输出格式:失败符号 请求方法名 请求路径 file:mock文件名
-        console.log(colors.success(util.format("%s %s %s file:%o", RESULT_ICON.SUCCESS, req.method, req.path, key)));
+        console.log(colors.success(util.format("%s %s %s file:%s", RESULT_ICON.SUCCESS, req.method, req.path, key)));
     });
 
     runner.on(TEST_STATUS.FINISH, (total) => {

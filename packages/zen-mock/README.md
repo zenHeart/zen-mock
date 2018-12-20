@@ -38,11 +38,11 @@ npm i -D zen-mock
 * [X] 支持 mockjs 配置响应
 * [X] 支持 header 配置
 * [X] 支持配置 express [expressjs HANDLER](https://expressjs.com/en/starter/basic-routing.html) 作为响应
-* [X] 支持静态资源模拟
+* [X] 支持静态资源模拟
 * [X] 实现热更新
 * [X] 支持结合 [zen-mock-cli][zen-mock-cli] 实现自动测试接口功能
 * [X] 支持结合 [zen-mock-cli][zen-mock-cli] 启动 mock server
-* [X] 支持结合 [zen-mock-cli][zen-mock-cli] 导出配置文件为 postman collections
+* [X] 支持结合 [zen-mock-cli][zen-mock-cli] 导出配置文件为 postman collections
 
 
 [zen-mock-cli]: https://github.com/zenHeart/zen-mock/tree/master/packages/zen-mock-cli

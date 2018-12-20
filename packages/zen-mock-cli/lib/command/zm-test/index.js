@@ -9,8 +9,8 @@ const reporter = require('./reporter')
  */
 module.exports = function zmTest(options) {
     
-    let testRunner = new TestRunner();
+    let testRunner = new TestRunner(options);
     reporter(testRunner);
-    testRunner.run(options);
+    testRunner.run();
 }
 

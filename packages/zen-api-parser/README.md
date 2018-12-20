@@ -26,7 +26,7 @@ zen-api-parser 会采用 `require` 直接读取配置.
 * 读取配置文件为函数,直接作为 resp 配置 
 * 合法的配置文件,配置项如下
 
-配置项|是否可选|类型|作用
+配置项|是否可选|类型|作用
 :---|:---|:---|:---|
  **req**|可选|Object|配置请求对象
  **req.method**|可选|String|默认 get 请求,支持所有合法 http 请求,**注意采用小写**
@@ -35,7 +35,7 @@ zen-api-parser 会采用 `require` 直接读取配置.
  **req.params**|可选|Object|设置请求路径中携带的参数,支持 mockjs 模式模拟数据
  **req.query**|可选|Object|设置请求查询字段,支持 mockjs 模式模拟数据
  **req.body**|可选|*|设置请求体,支持 mockjs 模式模拟数据
-**resp**|必选|*|分为如下情况<ul><li>非合法配置,作为 resp.body 配置</li></li><li>函数作为, [express handle](https://expressjs.com/en/starter/basic-routing.html)</li><li>对象,见后续配置</li></ul>
+**resp**|必选|*|分为如下情况<ul><li>非合法配置,作为 resp.body 配置</li></li><li>函数作为, [express handle](https://expressjs.com/en/starter/basic-routing.html)</li><li>对象,见后续配置</li></ul>
 **resp.header**|可选|Object|设置响应头,支持 mockjs 模式模拟数据
 **resp.body**|可选|*|设置响应体,支持 mockjs 模式模拟数据
 

@@ -3,9 +3,9 @@
 使用前,确保已 [安装 zen-mock](../../README.md#安装)
 
 ## 示例步骤
-1 在桌面,创建 `zen-mock-demo` 文件夹,将 [examples/basic](../basic) 中的内容拷贝到 `zen-mock-demo`
+1 在桌面,创建 `zen-mock-demo` 文件夹,将 [examples/basic](../basic) 中的内容拷贝到 `zen-mock-demo`
 
-> 若本地安装了 SVN 采用如下命令,在桌面执行如下命令
+> 若本地安装了 SVN 采用如下命令,在桌面执行如下命令
 > ```bash
 > svn checkout https://github.com/zenHeart/zen-mock/trunk/packages/zen-mock/examples/basic zen-mock-demo
 > ```
@@ -22,8 +22,8 @@ npm run start:mock
 3 访问 <http://localhost:3000> 可看到返回值为 `home`
 
 
-参看 [index.js](./index.js) 注释可知,实例化 zen-mock 时会默认读取 [mock 文件夹](./mock) ,该文件夹包含了所有配置.每一个文件代表一个
-路由配置. 
+参看 [index.js](./index.js) 注释可知,实例化 zen-mock 时会默认读取 [mock 文件夹](./mock) ,该文件夹包含了所有配置.每一个文件代表一个
+路由配置. 
 
 > * [MockServer实例配置](./config.md#MockServer实例配置)
 > * [路由配置](./config.md#路由配置)
@@ -39,7 +39,7 @@ npm run start:mock
 > 参看该示例中各配置文件说明
 
 ### 配置示例说明
-配置文件路径|请求访问路径|说明
+配置文件路径|请求访问路径|说明
 :---|:---|:---|
 [index.json](./mock/index.json)|[/](http://localhost:3000)|默认 index 作为根目录
 [basic.json](./mock/basic.json)|[/basic](http://localhost:3000/basic)|不包含 req,resp 配置,整个数据作为响应返回
@@ -59,7 +59,7 @@ curl -X POST \
   http://localhost:3000/req \
   -H 'Content-Type: application/json' \
   -d '{
-	"a":1
+    "a":1
 }'
 ```
 

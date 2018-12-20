@@ -8,7 +8,7 @@ describe('zen-mock utils', function () {
     describe('flattenPathFile', function () {
         it('test root must absolutpath', function () {
             let badFunc = () => { flattenPathFile('./sdf') };
-            expect(badFunc).to.throw(/make sure is absolute path/);
+            expect(badFunc).to.throw(/确保运行目录包含 mock /);
         })
 
         it('test default options', function () {

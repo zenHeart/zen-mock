@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const debug = require('debug')('zen-mock:utils');
 const minimatch = require('minimatch');// 采用 glob 来处理文件解析问题
-const {DEFAULT_CONFIG} = require('./constants');
+const { DEFAULT_CONFIG } = require('./constants');
 const deepmerge = require('deepmerge');
 
 
@@ -22,7 +22,7 @@ exports.getRelativeName = getRelativeName;
  * @param {string} pattern 符合 minimatch ,详见 https://github.com/isaacs/minimatch
  */
 function isIllegatExt(filename, pattern = DEFAULT_CONFIG.extPattern) {
-   return minimatch(filename,pattern);
+    return minimatch(filename, pattern);
 }
 
 /**
@@ -43,10 +43,12 @@ function isIgnorePath(source, ignorePath) {
  * @param {string} options.extPattern 可选,符合 minimatch 中的后缀,配置后只提取符合要求文件
  * @param {array} options.ignoreDir  葫芦目录,相对 root 而言,配置后会跳过该目录
  */
-function flattenPathFile(root,options={}) {
-      //非绝对路径直接抛出错误
-      if (!path.isAbsolute(root)) {
-        throw new Error("make sure is absolute path,you can use path.join(__dirname,<relativePath>)");
+function flattenPathFile(root, options = {}) {
+    //非绝对路径直接抛出错误
+    //todo:完善提示信息
+    if (!fs.existsSync(root)) {
+        throw new Error(`无法查找到 ${root} 路由配置目录,
+            确保运行目录包含 mock 文件夹!`);
     }
 
     /**
@@ -54,17 +56,17 @@ function flattenPathFile(root,options={}) {
      * 由于配置项为 1 维未采用 deepmerge 
      */
     options = deepmerge({
-        extPattern:DEFAULT_CONFIG.extPattern
-    },options);
+        extPattern: DEFAULT_CONFIG.extPattern
+    }, options);
 
-    let {extPattern} = options;
+    let { extPattern } = options;
     let flattenPathFiles = [];//存储扁平化后的文件
-    let absoluteIgnoreDir=[];
+    let absoluteIgnoreDir = [];
 
-    if(options.ignoreDir) { //如果设定了忽略目录,则转换此目录为相对 root 的绝对模式
-        absoluteIgnoreDir = relativeToAbsolutPath(options.ignoreDir,root);
+    if (options.ignoreDir) { //如果设定了忽略目录,则转换此目录为相对 root 的绝对模式
+        absoluteIgnoreDir = relativeToAbsolutPath(options.ignoreDir, root);
     }
-    
+
     //读取该目录,并遍历目录内容
     fs.readdirSync(root).forEach((source) => {
         //获取资源绝对路径
@@ -79,9 +81,9 @@ function flattenPathFile(root,options={}) {
              * 递归解析,返回扁平化的目录结构
              * 注意忽略目录只在第一层,并非递归解析忽略
              */
-            let subSources = flattenPathFile(absoluteSource,{
+            let subSources = flattenPathFile(absoluteSource, {
                 extPattern
-            });  
+            });
             flattenPathFiles.push(...subSources);
         } else { //默认不是目录就是文件
             //只保存符合后缀的文件
@@ -98,8 +100,8 @@ function flattenPathFile(root,options={}) {
  * 转换忽略目录数组为绝对目录
  * @param {array} dirs 忽略目录数组
  */
-function relativeToAbsolutPath(dirs,root) {
-    return dirs.map( dir => path.join(root,dir));
+function relativeToAbsolutPath(dirs, root) {
+    return dirs.map(dir => path.join(root, dir));
 }
 
 /**
