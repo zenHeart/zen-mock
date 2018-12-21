@@ -28,6 +28,7 @@ describe('zm test', function () {
             expect(result).to.include('total');
             expect(result).to.include('expect:string	get:number');
             expect(result).to.include('响应超时,5000ms 没有响应');
+            expect(exitCode).to.equal(1);
             done();
         })
     })

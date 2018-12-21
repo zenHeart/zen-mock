@@ -8,8 +8,7 @@ const supertest = require('supertest');
 describe('zm postman', function () {
     it('测试生成 postman', function (done) {
         const process = execFile(zmPath, ['postman'], {
-            cwd: __dirname + '/fixture',
-            timeout: 1000
+            cwd: __dirname + '/fixture'
         });
         let result = '';
         process.stdout.on('data', (data) => {
