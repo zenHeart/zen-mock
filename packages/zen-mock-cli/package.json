@@ -27,6 +27,7 @@
     "portfinder": "^1.0.20",
     "postman-collection": "^3.4.0",
     "supertest": "^3.3.0",
+    "valid-url": "^1.0.9",
     "zen-api-parser": "file:../zen-api-parser",
     "zen-mock": "file:../zen-mock"
   },

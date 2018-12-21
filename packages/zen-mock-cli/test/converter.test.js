@@ -27,11 +27,11 @@ describe('zm-postman/converter', function () {
                     }
                 ],
                 "method": "GET",
-                "url": "/sdf",
+                "url": "http://localhost/sdf",
             }});
         });
 
-        it('携带 options', function () {
+        it('携带 collection', function () {
             expect(convertToPostman({
                 method: 'get',
                 url: '/sdf',
@@ -50,10 +50,32 @@ describe('zm-postman/converter', function () {
                     }
                 ],
                 "method": "GET",
-                "url": "/sdf",
+                "url": "http://localhost/sdf"
             },name:'tom'});
         });
 
+        it('携带 collection,options', function () {
+            expect(convertToPostman({
+                method: 'get',
+                url: '/sdf',
+                header: {},
+                body: 'tom'
+            },{name:'tom'},{host:'http://mock.demo'})).to.deep.equal({
+                request:{
+                "body": {
+                    "mode": "raw",
+                    "raw": "\"tom\"",
+                },
+                "header": [
+                    {
+                        "key": "Content-type",
+                        "value": "application/json"
+                    }
+                ],
+                "method": "GET",
+                "url":  "http://mock.demo/sdf",
+            },name:'tom'});
+        });
         it('携带相同 header', function () {
             expect(convertToPostman({
                 method: 'get',
@@ -79,7 +101,7 @@ describe('zm-postman/converter', function () {
                     }
                 ],
                 "method": "GET",
-                "url": "/sdf",
+                "url": "http://localhost/sdf",
             },name:'tom'});
         });
     })

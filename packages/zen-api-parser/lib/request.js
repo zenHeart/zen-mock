@@ -1,6 +1,7 @@
 
 'use strict'
 const deepmerge = require('deepmerge')
+const nodePath = require('path');
 
 const { createPath } = require('./request-path');
 const { createUrl } = require('./request-url');
@@ -12,6 +13,7 @@ const { createHeader } = require('./http-header');
 */
 const defaultConfig = {
     method: 'get',
+    namespace:'/',
     path: '',
     url: '',
     params: {},
@@ -29,10 +31,12 @@ const defaultConfig = {
 module.exports = function (configfile = '', root = '', options = {}) {
     let config = deepmerge(defaultConfig, options);
 
-    let { url, path, params, query, header, body } = config;
+    let { url, path, params, query, header, body,namespace} = config;
     if (!path) { //若请求路径未赋值
         path=config.path = createPath(configfile, root);
     }
+    config.path = nodePath.join(namespace,path);
+
     if (!url) { //若 url 未赋值
         config.url = createUrl(path, params, query);
     }

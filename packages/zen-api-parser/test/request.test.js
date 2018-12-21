@@ -14,6 +14,7 @@ describe('request', function () {
             params: {},
             path: "/",
             query: {},
+            namespace:'/',
             url: "/"
         });
     })
@@ -26,6 +27,7 @@ describe('request', function () {
             params: {},
             path: "/foo",
             query: {},
+            namespace:'/',
             url: "/foo"
         });
     })
@@ -39,6 +41,7 @@ describe('request', function () {
             method: "get",
             params: {},
             path: "/index",
+            namespace:'/',
             query: {},
             url: "/index"
         });
@@ -60,10 +63,11 @@ describe('request', function () {
             body:{
                 name:/\w{6}/
             },
+            namespace:'/sdf/sdf'
         });
         expect(mockRequst).to.deep.include({
             method: "post",
-            path: "/index/:id",
+            path: "/sdf/sdf/index/:id",
         });
         expect(mockRequst.url).to.match(/^\/index\/\d{32}\?timestamp=\d{10}/)
         expect(mockRequst.header.Etag).to.match(/\d{6}/)

@@ -66,6 +66,8 @@ program
 
 program
     .command('postman')
+    .option('-h,--host <url>','主机地址,默认为 http://localhost',parseUrlOpts) //不考虑文件名映射配置项
+    .option('-f,--filename <value>','导出文件名,该名称回作为 postman collection 导入名,默认为 zen-mock') //不考虑文件名映射配置项
     .description('导出为 postman collection')
     .action(function (options) {
         let allOptions = mergeOptions(options);

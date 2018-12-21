@@ -3,18 +3,15 @@ const path = require('path');
 const {createCollertions} = require('./collections');
 const debug = require('debug')('zm:command/zm-postman');
 const {colorPrint} = require('../../options');
-const defaultConfig = {
-    savePath:path.resolve(),
-    saveName:'zm.json'
-}
+const {postman:defaultConfig} = require('../../constant').DEFAULT_CONFIG;
 
 /**
  * @param {string} files 导出配置为 postman collection 格式
  */
-module.exports = function zmPostman(options) {
+module.exports = function zmPostman(options = defaultConfig) {
     let collections = createCollertions(options);
-    let savePath = path.join(defaultConfig.savePath,defaultConfig.saveName);
+    let savePath = path.join(options.savePath,options.filename+'.json');
     fs.writeFileSync(savePath,JSON.stringify(collections));
-    colorPrint('success',`当前目录保存 zm.json 成功,可导入 postman`);
+    colorPrint('success',`保存成功,可导入 postman,完整路径: ${savePath}`);
 }
 

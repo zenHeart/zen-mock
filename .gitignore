@@ -6,3 +6,6 @@ zm.json
 .nyc_output/
 coverage/
 coverage.lcov
+
+# 忽略 zm postman 生成文件
+*.postman.json

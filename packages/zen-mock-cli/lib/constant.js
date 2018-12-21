@@ -1,3 +1,6 @@
+const  path = require('path');
+
+//TODO:存在和 commander 内部对象混合的可能,需解决
 exports.DEFAULT_CONFIG = {
     parent: { //父命令配置
         root:'mock',
@@ -9,6 +12,9 @@ exports.DEFAULT_CONFIG = {
         testUrl: 'http://localhost'
     },
     postman: { //zm postman 命令默认配置
+        host: 'http://localhost', //主机地址
+        filename: 'zen-mock.postman',
+        savePath:path.resolve()
     },
     serve: { //zm server 默认配置
         port:3000

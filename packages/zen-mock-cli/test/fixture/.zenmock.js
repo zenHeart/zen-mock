@@ -1,3 +1,3 @@
 module.exports = {
-    root:__dirname+'/mock'
+    root:__dirname+'/mock',
 }

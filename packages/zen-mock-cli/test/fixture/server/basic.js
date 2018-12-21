@@ -1,3 +1,3 @@
 module.exports = {
-    data:/\d{12}/
+    data:12
 }

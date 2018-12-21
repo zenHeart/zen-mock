@@ -37,7 +37,7 @@ module.exports = class MockServer {
      * @param {bool} config.hotReload 可选,是否开启热加载.默认开启
      * @param {array} config.ignoreDir 可选,默认为空,填入相对 root 目录的路径,例如 ['ignore']
      */
-    constructor(config) {
+    constructor(config = {}) {
 
         //创建  app 实例
         this.config = deepmerge(DEFAULT_CONFIG,config)
@@ -94,7 +94,10 @@ module.exports = class MockServer {
     loadApi(apiConfigFile) {
         //载入 api 原始配置
         //TODO: 此处思考能否静态加载配置文件
-        let apiConfig = apiConfigParser(apiConfigFile, this.root);
+        let {namespace} = this.config;
+        let apiConfig = apiConfigParser(apiConfigFile, this.root,{
+            namespace
+        });
         let { req, resp } = apiConfig;
 
         this.app[req.method](req.path, resp);
