@@ -1,6 +1,6 @@
 {
   "name": "zen-mock",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "zen-mock",
   "main": "lib/MockServer.js",
   "repository": {
