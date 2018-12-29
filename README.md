@@ -6,6 +6,7 @@ zen-mock
 ------
 
 [![Build Status](https://travis-ci.com/zenHeart/zen-mock.svg?branch=master)](https://travis-ci.com/zenHeart/zen-mock)
+[![codecov](https://codecov.io/gh/zenHeart/zen-mock/branch/master/graphs/badge.svg)](https://codecov.io/gh/zenHeart/zen-mock)
 
 
 ## 项目说明
