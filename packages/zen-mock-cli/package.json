@@ -28,10 +28,11 @@
     "postman-collection": "^3.4.0",
     "supertest": "^3.3.0",
     "valid-url": "^1.0.9",
-    "zen-api-parser": "file:../zen-api-parser",
-    "zen-mock": "file:../zen-mock"
+    "zen-api-parser": "^0.0.9",
+    "zen-mock": "^0.0.9"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "gitHead": "ca2926393d31d4629f0387516ed088c5fac88f45"
 }
