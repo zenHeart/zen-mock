@@ -5,7 +5,7 @@ const { expect } = require('chai')
 
 describe('zm test', function () {
     it('测试错误检查', function (done) {
-        const port = 3006;
+        const port = 8080;
         //模拟服务端,开启 10s
         const server = execFile(zmPath, ['-r', 'server', 'serve', '-p', port], {
             cwd: __dirname + '/fixture',
