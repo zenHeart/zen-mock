@@ -1,6 +1,5 @@
 node_modules
 lab/
-todo.md
 *.log
 zm.json
 .nyc_output/
