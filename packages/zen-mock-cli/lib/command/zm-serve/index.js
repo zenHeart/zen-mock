@@ -12,8 +12,8 @@ module.exports = function zmServe(options = defaultConfig) {
     let config = options;
     portfinder.basePort = config.port;//设定默认端口为 3000
 
-    if(config.root) {//检测到 root 配置
-        if(!path.isAbsolute(config.root)) {
+    if (config.root) {//检测到 root 配置
+        if (!path.isAbsolute(config.root)) {
             //若 root 非绝对目录则转换为相对执行路径的目录
             config.root = path.resolve(config.root);
         }
@@ -24,7 +24,8 @@ module.exports = function zmServe(options = defaultConfig) {
 
     portfinder.getPort(function (err, port) {
         let listener = mockServer.app.listen(port, function () {
-            console.log('mock server start,listen on ', listener.address().port)
+            console.log(
+                `mock server start,listen on ${listener.address().port},open http://localhost:${listener.address().port}`)
         })
     });
 }

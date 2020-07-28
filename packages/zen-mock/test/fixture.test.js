@@ -10,6 +10,18 @@ describe('fixture', function (done) {
         let mockServer = new MockServer({
             root: path.join(__dirname, 'fixture/mock')
         })
+        it('support cors',function(done) {
+            supertest(mockServer.app).get('/cors')
+            .expect('Access-Control-Allow-Origin', '*')
+            .expect(200)
+            .then(response => {
+                let {body} = response;
+                expect(body.data).to.eq('test');
+                done()
+            })
+            .catch(done)  
+        })
+
 
         it('测试 number', function (done) {
             supertest(mockServer.app)

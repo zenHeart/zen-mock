@@ -19,6 +19,7 @@ const morgan = require('morgan')
 //express body 解析中间件
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
+const cors = require('cors')
 
 
 /**
@@ -83,6 +84,7 @@ module.exports = class MockServer {
         this.app.use(bodyParser.json()); // 解析 application/json
         this.app.use(bodyParser.urlencoded({ extended: true })); //解析 application/x-www-form-
         this.app.use(fileUpload());//解析 mutltipart/formdata
+        this.app.use(cors()) // 支持跨域
     }
 
 

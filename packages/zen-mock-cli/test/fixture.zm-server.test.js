@@ -18,7 +18,7 @@ describe('zm serve', function () {
             result += data;
         })
         process.on('close', (exitCode) => {
-            expect(result).to.match(/.*mock server start,listen on  3000/);
+            expect(result).to.match(/.*mock server start,listen on/);
             done();
         })
     })
