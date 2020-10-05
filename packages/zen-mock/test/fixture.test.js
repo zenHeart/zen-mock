@@ -10,13 +10,55 @@ describe('fixture', function (done) {
         let mockServer = new MockServer({
             root: path.join(__dirname, 'fixture/mock')
         })
-        it('support cors',function(done) {
-            supertest(mockServer.app).get('/cors')
-            .expect('Access-Control-Allow-Origin', '*')
+        it('support simple cors',function(done) {
+            const Origin = 'http://localhost:3000';
+            supertest(mockServer.app)
+            .get('/cors')
+            .set('Origin', Origin)
+            .expect('Access-Control-Allow-Origin', Origin)
             .expect(200)
             .then(response => {
                 let {body} = response;
                 expect(body.data).to.eq('test');
+                done()
+            })
+            .catch(done)  
+        })
+        it('support preflight cors',function(done) {
+            const Origin = 'http://localhost:3000';
+            const headers = 'Custom-Header, Custom-Header1';
+            supertest(mockServer.app)
+            .options('/cors/preflight')
+            .set('Origin', Origin)
+            .set('Access-Control-Request-Headers', headers)
+            .expect('Access-Control-Allow-Origin', Origin)
+            .expect('Access-Control-Allow-Methods', /POST/)
+            .expect('Access-Control-Allow-Headers', headers)
+            .expect(204)
+            .then(response => {
+                let {body} = response;
+                expect(body.data).to.undefined
+                done()
+            })
+            .catch(done)  
+        })
+        it('support  cors with credential',function(done) {
+            const Origin = 'http://localhost:3000';
+            supertest(mockServer.app)
+            .post('/cors/preflight')
+            .withCredentials()
+            .send({ a: 1})
+            .set('Origin', Origin)
+            .expect('Access-Control-Allow-Origin', Origin)
+            .expect('Access-Control-Allow-Credentials', 'true')
+            .expect('Set-Cookie', 'name=zenheart')
+            .expect(200)
+            .then(response => {
+                let {body, cookies} = response;
+                expect(body.data).to.deep.eq({
+                    a: 1,
+                    b: 2
+                })
                 done()
             })
             .catch(done)  

@@ -20,7 +20,7 @@ const morgan = require('morgan')
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 const cors = require('cors')
-
+const cookieParser = require('cookie-parser');
 
 /**
  * 创建 MockServer 扩展 express() 实例
@@ -84,10 +84,12 @@ module.exports = class MockServer {
         this.app.use(bodyParser.json()); // 解析 application/json
         this.app.use(bodyParser.urlencoded({ extended: true })); //解析 application/x-www-form-
         this.app.use(fileUpload());//解析 mutltipart/formdata
-        this.app.use(cors()) // 支持跨域
+        this.app.use(cookieParser());//解析客户端 cookie
+        this.app.use(cors({
+            origin: true, 
+            credentials: true
+        })) // 支持跨域
     }
-
-
 
     /**
      * 加载 api 的配置到 server 实例.
