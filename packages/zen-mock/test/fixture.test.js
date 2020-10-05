@@ -245,7 +245,6 @@ describe('fixture', function (done) {
                     .expect('Content-Type', /javascript/)
                     .expect(200)
             ]).then(() => { done() }).catch(done)
-
         })
     })
 
