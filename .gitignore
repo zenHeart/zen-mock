@@ -6,5 +6,6 @@ zm.json
 coverage/
 coverage.lcov
 
+package-lock.json
 # 忽略 zm postman 生成文件
 *.postman.json
